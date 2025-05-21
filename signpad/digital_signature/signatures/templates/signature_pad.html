@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Pad</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #signatureContainer {
+            text-align: center;
+        }
+        #signatureCanvas {
+            border: 1px solid black;
+            background-color: white;
+        }
+        button {
+            margin: 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+</head>
+<body>
+    <div id="signatureContainer">
+        <canvas id="signatureCanvas" width="400" height="200"></canvas>
+        <br>
+        <button id="clearBtn">Clear Signature</button>
+        <button id="saveBtn">Save Signature</button>
+    </div>
+    <form id="signatureForm" method="post" action="{% url 'submit_form' %}">
+        {% csrf_token %}
+        <input type="hidden" id="signatureData" name="signature">
+        <!-- Include any additional form data that was previously filled out -->
+        {% for field in form %}
+            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+        {% endfor %}
+        <button type="submit">Submit Form</button>
+    </form>
+    <script>
+        const canvas = document.getElementById('signatureCanvas');
+        const signaturePad = new SignaturePad(canvas);
+
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            signaturePad.clear();
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            if (signaturePad.isEmpty()) {
+                alert("Please provide a signature first.");
+            } else {
+                const dataURL = signaturePad.toDataURL();
+                document.getElementById('signatureData').value = dataURL;
+            }
+        });
+    </script>
+</body>
+</html>

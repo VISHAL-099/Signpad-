@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Signature Form</title>
+</head>
+<body>
+    <h1>Digital Signature Form</h1>
+    <form method="post" action="{% url 'signature_pad' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Go to Signature Pad</button>
+    </form>
+</body>
+</html>

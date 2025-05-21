@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+</head>
+<body>
+    <h1>Signature submitted successfully!</h1>
+    <h2>Submitted Signatures:</h2>
+    <ul>
+        {% for signature in signatures %}
+        <li>
+            <p>Name: {{ signature.name }}</p>
+            <p>Age: {{ signature.age }}</p>
+            <img src="{{ signature.signature }}" alt="Signature" style="border:1px solid #000;"/>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
